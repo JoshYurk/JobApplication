@@ -44,9 +44,6 @@ namespace PokemonProject
                 //Subtracts Pikachus
                 pikachuCount--;
             }
-            //Pikachu Cost Calculation
-            pikachuTotalCost = (pikachuCost * pikachuCount);
-
         }
 
         private void SquirtleCounter_ValueChanged(object sender, EventArgs e)
@@ -62,8 +59,6 @@ namespace PokemonProject
                 //Subtracts Squirtles
                 squirtleCount--;
             }
-            //Squirtle Cost Calculation
-            squirtleTotalCost = (squirtleCost * squirtleCount);
         }
 
         private void CharmanderCounter_ValueChanged(object sender, EventArgs e)
@@ -79,8 +74,6 @@ namespace PokemonProject
                 //Subtracts Charmanders
                 charmanderCount--;
             }
-            //Charmander Cost Calculation
-            charmanderTotalCost = (charmanderCost * charmanderCount);
         }
 
         private double UndiscountedCostCalculation()
@@ -138,30 +131,40 @@ namespace PokemonProject
             }
 
             //Excess Calculations i.e 3 pikachus and 1 squirtle
+            //Pikachu and Squirtle
+            //Pikachu is higher
             if (pikachuCount >= squirtleCount && (pikachuCount >= 1 && squirtleCount >= 1))
             {
                 discountedCost = psDiscCost + (pikachuCost * (pikachuCount - squirtleCount));
             }
+            //Squirtle is higher
             else if (squirtleCount >= pikachuCount && (pikachuCount >= 1 && squirtleCount >= 1))
             {
                 discountedCost = psDiscCost + (squirtleCost * (squirtleCount - pikachuCount));
             }
+            //Pikachu and Charmander
+            //Pikachu is higher
             else if (pikachuCount >= charmanderCount && (pikachuCount >= 1 && charmanderCount >= 1))
             {
                 discountedCost = pcDiscCost + (pikachuCost * (pikachuCount - charmanderCount));
             }
+            //Charmander is Higher
             else if (charmanderCount >= pikachuCount && (pikachuCount >= 1 && charmanderCount >= 1))
             {
                 discountedCost = pcDiscCost + (charmanderCost * (charmanderCount - pikachuCount));
             }
+            //Squirtle and Charmander
+            //Squirtle is higher
             else if (squirtleCount >= charmanderCount && (charmanderCount >= 1 && squirtleCount >= 1))
             {
                 discountedCost = scDiscCost + (squirtleCost * (squirtleCount - charmanderCount));
             }
+            //Charmander is higher
             else if (charmanderCount >= squirtleCount && (charmanderCount >= 1 && squirtleCount >= 1))
             {
                 discountedCost = scDiscCost + (charmanderCost * (charmanderCount - squirtleCount));
             }
+            //If only one pokemon
             else
             {
                 return UndiscountedCostCalculation();
@@ -169,22 +172,27 @@ namespace PokemonProject
             #endregion
 
             #region 20% Discount Calculations
+            //Checks if it is for the 20% discount
             if (pikachuCount >= 1 && squirtleCount >= 1 && charmanderCount >= 1)
             {
+                //All equal or Pikachu is least
                 if ((pikachuCount == squirtleCount && pikachuCount == charmanderCount) || (pikachuCount < squirtleCount && pikachuCount < charmanderCount))
                 {
                     pscDiscCost = (((pikachuCost + squirtleCost + charmanderCost) * .8) * pikachuCount);
                 }
+                //Squirtle is least
                 else if (pikachuCount > squirtleCount && charmanderCost > squirtleCount)
                 {
                     pscDiscCost = (((pikachuCost + squirtleCost + charmanderCost) * .8)) * squirtleCount;
                 }
+                //Charmander is least
                 else if (pikachuCount > charmanderCount && squirtleCount > charmanderCount)
                 {
                     pscDiscCost = (((pikachuCost + squirtleCost + charmanderCost) * .8)) * charmanderCount;
                 }
 
                 //Excess Pokemon Calculations
+                //If one pokemon has more than the others.
                 if ((pikachuCount >= squirtleCount && pikachuCount >= charmanderCount && squirtleCount == charmanderCount) && (pikachuCount >= 1 && squirtleCount >= 1 && charmanderCount >= 1))
                 {
                     discountedCost = pscDiscCost + (pikachuCost * (pikachuCount - squirtleCount));
@@ -197,6 +205,7 @@ namespace PokemonProject
                 {
                     discountedCost = pscDiscCost + (pikachuCost * (pikachuCount - charmanderCount));
                 }
+                //If two pokemon have more than the last one.
                 else if ((pikachuCount >= squirtleCount && pikachuCount >= charmanderCount && pikachuCount == charmanderCount) && (pikachuCount >= 1 && squirtleCount >= 1 && charmanderCount >= 1))
                 {
                     discountedCost = pscDiscCost + (((pikachuCost * (pikachuCount - squirtleCount)) + (charmanderCost * (charmanderCount - squirtleCount))) * .9);
@@ -211,11 +220,13 @@ namespace PokemonProject
                 }
             }
             #endregion
+
             return discountedCost;
         }
 
         private void btnCalculate_Click(object sender, EventArgs e)
         {
+            //Displays the total Cost
             costLabel.Text = String.Format("{0:C}", DiscountedCostCalculation());
         }
     }
