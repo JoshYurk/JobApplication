@@ -8,4 +8,4 @@ My PokemonStore
 #It has a GUI
 #Written in Visual Studio 2015
 #Uses Incremental Boxes for pokemon numbers
- # Have the boxes say how many pokemon you want, then hit calculate cost.
+#Have the boxes say how many pokemon you want, then hit calculate cost.
